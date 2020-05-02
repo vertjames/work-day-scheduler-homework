@@ -59,16 +59,16 @@
           let timeColumn = document.createElement('div')
             timeColumn.classList.add('col-2', 'hour')
             timeColumn.setAttribute("id", "hourID")
-            plannerRow.appendChild(timeColumn)
+            plannerRow.append(timeColumn)
               timeColumn.innerHTML = `${timeBlocks[i]}`
           // Event column creator:
           let eventColumn = document.createElement('form-group')
             eventColumn.classList.add('col-8', 'textarea')
-            plannerRow.appendChild(eventColumn)
+            plannerRow.append(eventColumn)
             // WHEN I click into a timeblock
             // THEN I can enter an event 
           let inputArea = document.createElement('textarea')
-            eventColumn.innerHTML = `<textarea>`
+            eventColumn.innerHTML = `<textarea id='textarea'>`
             // WHEN I view the timeblocks for that day
             // THEN each timeblock is color coded to indicate whether it is in the past, present, or future
               if (`${timeBlocks[i]}` > moment().format('hA')) {
@@ -83,26 +83,59 @@
           // Save column creator:
           let saveColumn = document.createElement('button')
             saveColumn.classList.add('col-2', 'saveBtn')
-            plannerRow.appendChild(saveColumn)
-              // WHEN I click the save button for that timeblock
-              // THEN the text for that event is saved in local storage
-            saveColumn.innerHTML = `SAVE`
+            saveColumn.setAttribute("id", "saveBtn")
+            plannerRow.append(saveColumn)
+              saveColumn.innerHTML = `SAVE`
+
+
+  
           // Append row to list of rows:
           document.getElementById('scheduler').append(plannerRow)
         }      
 
 
-        // let inputArea = document.createElement('textarea')
-        // eventColumn.inputArea.classList.add('form-control')
-        // document.getElementById('inputArea').appendChild(inputArea)
+        // WHEN I click the save button for that timeblock
+        // THEN the text for that event is saved in local storage
+// use event.onTarget to target the text box when the save button is clicked, and target the textarea for local storage. Call the save button 'this' so that it knows to associate that specific save buton with it's "sibling" textarea
 
-        // for (i = 0; i < timeBlocks.length; i++) {
-        //   let p = document.getElementById('inputArea')
-        //   let newElement = document.createElement('textarea')
-        //   newElement.setAttribute('id', 'exampleFormControlTextarea1')
-        //   newElement.innerHTML = 'hello'
-        //   p.appendChild(newElement)
-        // }
+          // $('.saveBtn').on('click', function () {
+          //   // Stop the form from auotmatically clearing itself:
+          //   event.preventDefault()
+          //   console.log(this.value)
+          //   let textInput = { 
+          //     text: document.getElementById('textarea').value,
+          //   }
+          //   localStorage.setItem('textarea', JSON.stringify(textInput))
+          // })
+          // if (localStorage.getItem('textInput')) {
+          //     let textarea = JSON.parse(localStorage.getItem('textInput'))
+          //     document.getElementById('textInput').innerHTML = `
+          //         ${textInput}
+          //       `
+          // }
+
+          // Let's listen for the SAVE button click:
+            document.getElementById('saveBtn').addEventListener('click', function () {
+              // This prevents the form from refreshing itself:
+              event.preventDefault()
+              // This creates an object variable called "textInput" that gets the values that the user input into the text area:
+              let textInput = {
+                enteredText: document.getElementById('textarea').value
+              }
+              // ...and this turns those values into a string (which is required for local storage):
+              localStorage.setItem('textInput', JSON.stringify(textInput))
+            })
+
+            // This parses the string of user-entered values and inserts them to a template literal that is then inserted into the div called "user" in the HTML:
+            // This first line here just checks to make sure the user has input information and submitted the form:
+            if (localStorage.getItem('textInput')) {
+              let textInput = JSON.parse(localStorage.getItem('textInput'))
+              document.getElementById('textarea').innerHTML = `
+                ${textInput.enteredText}
+              `
+            }
+
+
 
       // WHEN I refresh the page
       // THEN the saved events persist 
