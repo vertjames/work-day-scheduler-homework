@@ -41,7 +41,7 @@
 
     // WHEN I open the planner
     // THEN the current day is displayed at the top of the calendar
-    $('#currentDay').html(moment().format("dddd, MMM Do, YYYY"))
+    document.getElementById('currentDay').innerHTML = moment().format("dddd, MMM Do, YYYY")
 
     // WHEN I scroll down
     // THEN I am presented with timeblocks for standard business hours
@@ -50,54 +50,54 @@
     // And then we'll need a for loop to create our rows and columns:
     // Row creator:
     for (i = 0; i < timeBlocks.length; i++) {
-      let plannerRow = $('<div/>')
-        .addClass('row')
+      let plannerRow = document.createElement('div')
+      plannerRow.classList.add('row')
       // Time column creator:
-      let timeColumn = $('<div/>')
-        .addClass('col-2 hour')
-        .attr('id', 'hourID')
+      let timeColumn = document.createElement('div')
+      timeColumn.classList.add('col-2', 'hour')
+      timeColumn.setAttribute("id", "hourID")
       plannerRow.append(timeColumn)
-      timeColumn.html(`${timeBlocks[i]}`)
+      timeColumn.innerHTML = `${timeBlocks[i]}`
       // Event column creator:
-      let eventColumn = $('<form-group/>')
-        .addClass('col-8 textarea')
+      let eventColumn = document.createElement('form-group')
+      eventColumn.classList.add('col-8', 'textarea')
       plannerRow.append(eventColumn)
       // WHEN I click into a timeblock
       // THEN I can enter an event 
-      let inputArea = $('<textarea/>')
-      eventColumn.html(`<textarea id='textarea'>`)
+      let inputArea = document.createElement('textarea')
+      eventColumn.innerHTML = `<textarea id='textarea'>`
       // WHEN I view the timeblocks for that day
       // THEN each timeblock is color coded to indicate whether it is in the past, present, or future
       if (`${timeBlocks[i]}` > moment().format('hA')) {
-        eventColumn.addClass('future')
+        eventColumn.classList.add('future')
       }
       if (`${timeBlocks[i]}` === moment().format('hA')) {
-        eventColumn.addClass('present')
+        eventColumn.classList.add('present')
       }
       else {
-        eventColumn.addClass('past')
+        eventColumn.classList.add('past')
       }
       // Save column creator:
-      let saveColumn = $('<button/>')
-        .addClass('col-2 saveBtn')
-        .attr("id", "saveBtn")
+      let saveColumn = document.createElement('button')
+      saveColumn.classList.add('col-2', 'saveBtn')
+      saveColumn.setAttribute("id", "saveBtn")
       plannerRow.append(saveColumn)
-      saveColumn.html(`SAVE`)
+      saveColumn.innerHTML = `SAVE`
 
       // Append row to list of rows:
-      $('#scheduler').append(plannerRow)
+      document.getElementById('scheduler').append(plannerRow)
     }
 
     // WHEN I click the save button for that timeblock
     // THEN the text for that event is saved in local storage
 
     // Let's listen for the SAVE button click:
-    $('#saveBtn').click(function () {
+    document.getElementById('saveBtn').addEventListener('click', function () {
       // This prevents the form from refreshing itself:
       event.preventDefault()
       // This creates an object variable called "textInput" that gets the values that the user input into the text area:
       let textInput = {
-        enteredText: $('#textarea').val()
+        enteredText: document.getElementById('textarea').value
       }
       // ...and this turns those values into a string (which is required for local storage):
       localStorage.setItem('textInput', JSON.stringify(textInput))
@@ -110,9 +110,9 @@
     // This first line here just checks to make sure the user has input information and submitted the form:
     if (localStorage.getItem('textInput')) {
       let textInput = JSON.parse(localStorage.getItem('textInput'))
-      $('#textarea').html(`
-            ${textInput.enteredText}
-          `)
+      document.getElementById('textarea').innerHTML = `
+                ${textInput.enteredText}
+              `
     }
 
   </script>

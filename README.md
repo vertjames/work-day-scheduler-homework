@@ -7,7 +7,7 @@ In this exercise, we were tasked with creating a simple calendar application tha
 
 ## Process
 
-As I'm more comfortable with vanilla Javascript vs. jQuery, I first coded everything out in vanilla JS to make sure the app worked. I intend to converit it all to jQuery once it is complete and working in vanilla JS. 
+As I'm more comfortable with vanilla Javascript vs. jQuery, I first coded everything out in vanilla JS to make sure the app worked. Then I converted everything to jQuery once it was working in vanilla JS. 
 
 Here is how the app appears in-browser:
 
@@ -16,4 +16,4 @@ Here is how the app appears in-browser:
 
 ## Status
 
-This assigment is currently incomplete. 
+This assigment is complete other than one remaining issue: Currently the 'save' function only works in the first time slot. I still have to get it to work in the other time slots.
